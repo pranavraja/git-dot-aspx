@@ -13,30 +13,35 @@ namespace GitAspx.Controllers {
 			this.repositories = repositories;
 		}
 
-		public ActionResult GetTextFile(string project) {
-			return WriteFile(project, "text/plain");
+        public ActionResult GetTextFile(string team, string project)
+        {
+			return WriteFile(team, project, "text/plain");
 		}
 
-		public ActionResult GetInfoPacks(string project) {
-			return WriteFile(project, "text/plain; charset=utf-8");
+        public ActionResult GetInfoPacks(string team, string project)
+        {
+            return WriteFile(team, project, "text/plain; charset=utf-8");
 		}
 
-		public ActionResult GetLooseObject(string project) {
-			return WriteFile(project, "application/x-git-loose-object");
+        public ActionResult GetLooseObject(string team, string project)
+        {
+            return WriteFile(team, project, "application/x-git-loose-object");
 		}
 
-		public ActionResult GetPackFile(string project) {
-			return WriteFile(project, "application/x-git-packed-objects");
+        public ActionResult GetPackFile(string team, string project)
+        {
+            return WriteFile(team, project, "application/x-git-packed-objects");
 		}
 
-		public ActionResult GetIdxFile(string project) {
-			return WriteFile(project, "application/x-git-packed-objects-toc");
+        public ActionResult GetIdxFile(string team, string project)
+        {
+            return WriteFile(team, project, "application/x-git-packed-objects-toc");
 		}
 
-		private ActionResult WriteFile(string project, string contentType) {
+		private ActionResult WriteFile(string team, string project, string contentType) {
 			Response.WriteNoCache();
 			Response.ContentType = contentType;
-			var repo = repositories.GetRepository(project);
+			var repo = repositories.GetRepository(team, project);
 
 			string path = Path.Combine(repo.GitDirectory(), GetPathToRead(project));
 

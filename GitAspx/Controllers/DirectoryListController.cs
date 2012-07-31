@@ -31,17 +31,17 @@ namespace GitAspx.Controllers {
 			this.repositories = repositories;
 		}
 
-		public ActionResult Index() {
+		public ActionResult Index(string team) {
 			return View(new DirectoryListViewModel {
-				RepositoriesDirectory = repositories.GetRepositoriesDirectory().FullName,
-				Repositories = repositories.GetAllRepositories().Select(x => new RepositoryViewModel(x))
+				RepositoriesDirectory = repositories.GetRepositoriesDirectory(team).FullName,
+				Repositories = repositories.GetAllRepositories(team).Select(x => new RepositoryViewModel(x))
 			});
 		}
 
 		[HttpPost]
-		public ActionResult Create(string project) {
-			if (!string.IsNullOrEmpty(project)) {
-				repositories.CreateRepository(project);
+		public ActionResult Create(string team, string project) {
+			if (!string.IsNullOrEmpty(project) && !string.IsNullOrEmpty(team)) {
+				repositories.CreateRepository(team, project);
 			}
 			return RedirectToAction("Index");
 		}

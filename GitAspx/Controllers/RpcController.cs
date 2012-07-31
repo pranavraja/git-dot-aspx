@@ -36,15 +36,16 @@ namespace GitAspx.Controllers {
 		}
 
 		[HttpPost]
-		public ActionResult UploadPack(string project) {
-			return ExecuteRpc(project, "upload-pack", repository => {
+        public ActionResult UploadPack(string team, string project)
+        {
+			return ExecuteRpc(team, project, "upload-pack", repository => {
 				repository.Upload(GetInputStream(), Response.OutputStream);
 			});
 		}
 
 		[HttpPost]
-		public ActionResult ReceivePack(string project) {
-			return ExecuteRpc(project, "receive-pack", repository => {
+		public ActionResult ReceivePack(string team, string project) {
+			return ExecuteRpc(team, project, "receive-pack", repository => {
 				repository.Receive(GetInputStream(), Response.OutputStream);
 			});
 		}
@@ -56,7 +57,7 @@ namespace GitAspx.Controllers {
 			return Request.InputStream;
 		}
 
-		ActionResult ExecuteRpc(string project, string rpc, Action<Repository> action) {
+		ActionResult ExecuteRpc(string team, string project, string rpc, Action<Repository> action) {
 			if (!HasAccess(rpc, checkContentType: true)) {
 				return new ForbiddenResult();
 			}
@@ -64,7 +65,7 @@ namespace GitAspx.Controllers {
 			Response.ContentType = "application/x-git-{0}-result".With(rpc);
 			Response.WriteNoCache();
 
-			var repository = repositories.GetRepository(project);
+			var repository = repositories.GetRepository(team, project);
 
 			if (repository == null) {
 				return new NotFoundResult();

@@ -34,20 +34,20 @@ namespace GitAspx.Controllers {
 			this.repositories = repositories;
 		}
 
-		public ActionResult Execute(string project, string service) {
+		public ActionResult Execute(string team, string project, string service) {
 			service = GetServiceType(service);
 			bool isUsingSmartProtocol = service != null;
 
 			// Service has been specified - we're working with the smart protocol
 			if(isUsingSmartProtocol) {
-				return SmartInfoRefs(service, project);
+                return SmartInfoRefs(service, team, project);
 			}
 
 			// working with the dumb protocol.
-			return DumbInfoRefs(project);
+			return DumbInfoRefs(team, project);
 		}
 
-		ActionResult SmartInfoRefs(string service, string project) {
+		ActionResult SmartInfoRefs(string service, string team, string project) {
 			Response.ContentType = "application/x-git-{0}-advertisement".With(service);
 			Response.WriteNoCache();
 
@@ -56,7 +56,7 @@ namespace GitAspx.Controllers {
 			// If we don't set it, then it defaults to utf-8, which breaks jgit's logic for detecting smart http
 			Response.Charset = ""; 
 
-			var repository = repositories.GetRepository(project);
+			var repository = repositories.GetRepository(team, project);
 
 			if (repository == null) {
 				return new NotFoundResult();
@@ -76,11 +76,11 @@ namespace GitAspx.Controllers {
 			return new EmptyResult();
 		}
 
-		ActionResult DumbInfoRefs(string project) {
+		ActionResult DumbInfoRefs(string team, string project) {
 			Response.WriteNoCache();
 
 			Response.ContentType = "text/plain; charset=utf-8";
-			var repository = repositories.GetRepository(project);
+			var repository = repositories.GetRepository(team, project);
 
 			if(repository == null) {
 				return new NotFoundResult();

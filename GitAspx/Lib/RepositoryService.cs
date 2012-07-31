@@ -30,16 +30,16 @@ namespace GitAspx.Lib {
 			this.appSettings = appSettings;
 		}
 
-		public IEnumerable<Repository> GetAllRepositories() {
-			return appSettings.RepositoriesDirectory
+		public IEnumerable<Repository> GetAllRepositories(string team) {
+			return GetRepositoriesDirectory(team)
 				.GetDirectories()
 				.Select(Repository.Open)
 				.Where(x => x!=null)
 				.ToList();
 		}
 
-		public Repository GetRepository(string project) {
-			var directory = Path.Combine(appSettings.RepositoriesDirectory.FullName, project);
+		public Repository GetRepository(string team, string project) {
+			var directory = Path.Combine(appSettings.RepositoriesDirectory.FullName, team, project);
 
 			if (!Directory.Exists(directory)) {
 				return null;
@@ -49,12 +49,13 @@ namespace GitAspx.Lib {
 			return new Repository(new DirectoryInfo(directory));
 		}
 
-		public DirectoryInfo GetRepositoriesDirectory() {
-			return appSettings.RepositoriesDirectory;
+        public DirectoryInfo GetRepositoriesDirectory(string team)
+        {
+			return appSettings.RepositoriesDirectory.GetDirectories(team).First();
 		}
 
-		public void CreateRepository(string project) {
-			var directory = Path.Combine(appSettings.RepositoriesDirectory.FullName, project + ".git");
+		public void CreateRepository(string team, string project) {
+			var directory = Path.Combine(appSettings.RepositoriesDirectory.FullName, team, project + ".git");
 
 			if (!Directory.Exists(directory)) {
 				Directory.CreateDirectory(directory);
