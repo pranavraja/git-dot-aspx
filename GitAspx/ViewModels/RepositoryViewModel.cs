@@ -3,8 +3,8 @@ namespace GitAspx.ViewModels {
 	using GitAspx.Lib;
 
 	public class RepositoryViewModel {
-		private Repository repository;
-		private CommitInfo latestCommit;
+		private readonly Repository repository;
+		private readonly CommitInfo latestCommit;
 
 		public RepositoryViewModel(Repository repository) {
 			this.repository = repository;

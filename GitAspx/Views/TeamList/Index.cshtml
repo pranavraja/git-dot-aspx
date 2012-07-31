@@ -1,0 +1,18 @@
+﻿@using GitAspx.ViewModels
+@using GitAspx
+@model TeamListViewModel
+
+<div class="repositoryContainer">
+	<h1>Teams</h1>		
+
+	<ul id="repositories">
+		@foreach (var directory in Model.Directories) {
+			<li>
+				<a class="repository" href="/@directory.Name" title="@directory.Name">
+					@directory.Name
+				</a>
+			</li>
+		}
+	</ul>
+
+</div>

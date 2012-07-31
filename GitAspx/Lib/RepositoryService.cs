@@ -30,6 +30,10 @@ namespace GitAspx.Lib {
 			this.appSettings = appSettings;
 		}
 
+        public DirectoryInfo GetRootDirectory() {
+            return appSettings.RepositoriesDirectory;
+        }
+
 		public IEnumerable<Repository> GetAllRepositories(string team) {
 			return GetRepositoriesDirectory(team)
 				.GetDirectories()

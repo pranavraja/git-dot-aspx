@@ -34,7 +34,7 @@ namespace GitAspx.Controllers {
 
 		public ActionResult Index(string team) {
 			return View(new DirectoryListViewModel {
-				RepositoriesDirectory = repositories.GetRepositoriesDirectory(team).FullName,
+				RepositoriesDirectory = repositories.GetRepositoriesDirectory(team).Name,
 				Repositories = repositories.GetAllRepositories(team).Select(x => new RepositoryViewModel(x))
 			});
 		}
