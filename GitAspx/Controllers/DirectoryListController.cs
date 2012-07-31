@@ -19,7 +19,8 @@
 #endregion
 
 namespace GitAspx.Controllers {
-	using System.Web.Mvc;
+    using System.IO;
+    using System.Web.Mvc;
 	using GitAspx.Lib;
 	using GitAspx.ViewModels;
 	using System.Linq;
@@ -39,11 +40,12 @@ namespace GitAspx.Controllers {
 		}
 
 		[HttpPost]
-		public ActionResult Create(string team, string project) {
-			if (!string.IsNullOrEmpty(project) && !string.IsNullOrEmpty(team)) {
-				repositories.CreateRepository(team, project);
+		public ActionResult Create(string directory, string project) {
+            if (!string.IsNullOrEmpty(project) && !string.IsNullOrEmpty(directory))
+            {
+                repositories.CreateRepository(directory, project);
 			}
-			return RedirectToAction("Index");
+			return Redirect("/" + Path.GetFileName(directory));
 		}
 	}
 }

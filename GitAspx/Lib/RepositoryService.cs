@@ -51,16 +51,19 @@ namespace GitAspx.Lib {
 
         public DirectoryInfo GetRepositoriesDirectory(string team)
         {
-			return appSettings.RepositoriesDirectory.GetDirectories(team).First();
+			return appSettings.RepositoriesDirectory.GetDirectories(team).FirstOrDefault();
 		}
 
-		public void CreateRepository(string team, string project) {
-			var directory = Path.Combine(appSettings.RepositoriesDirectory.FullName, team, project + ".git");
+        public void CreateRepository(string directory, string project)
+        {
+			var repositoryDirectory = Path.Combine(directory, project + ".git");
 
-			if (!Directory.Exists(directory)) {
-				Directory.CreateDirectory(directory);
+            if (!Directory.Exists(repositoryDirectory))
+            {
+                Directory.CreateDirectory(repositoryDirectory);
 
-				using(var repository = new GitSharp.Core.Repository(new DirectoryInfo(directory))) {
+                using (var repository = new GitSharp.Core.Repository(new DirectoryInfo(repositoryDirectory)))
+                {
 					repository.Create(true);
 				}
 			}
