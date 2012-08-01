@@ -12,9 +12,14 @@
     <h1>Recent commits for <a class="repository" href="javascript:void(0)" title="@Url.ProjectUrl(team, project)">@Model.Name</a></h1>
 
     <ul id="repositories">
-	    @foreach (var commit in Model.RecentCommits) {
-		    <li><a><span class="commit-hash">@commit.Hash</span> <span class="commit-author">@commit.Author</span>: <span class="commit-message">@commit.Message</span> - <span class="commit-date">@commit.Date</span></a></li>
+    @if (Model.LatestCommit != null) {
+        foreach (var commit in Model.RecentCommits) {
+            <li><a><span class="commit-hash">@commit.Hash</span> <span class="commit-author">@commit.Author</span>: <span class="commit-message">@commit.Message</span> - <span class="commit-date">@commit.Date</span></a></li>
         }
+    }
+    else {
+        <p>No commits.</p>
+    }
     </ul>
 </div>
 

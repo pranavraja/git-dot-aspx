@@ -5,7 +5,7 @@
 }
 
 <div class="repositoryContainer">
-	<h1>Repositories for @Model.RepositoriesDirectory</h1>		
+	<h1>Repositories for @Model.RepositoriesDirectory.Name</h1>		
 
 	<a href="javascript:void(0)" class="createRepository">Create a new repository</a>
 	<div class="clear"></div>
@@ -13,9 +13,13 @@
 	<ul id="repositories">
 		@foreach (var repository in Model.Repositories) {
 			<li>
-				<a class="repository" href="@Model.RepositoriesDirectory/@repository.Name" title="@Url.ProjectUrl(Model.RepositoriesDirectory, repository.Name)">
+				<a class="repository" href="@Model.RepositoriesDirectory/@repository.Name" title="@Url.ProjectUrl(Model.RepositoriesDirectory.Name, repository.Name)">
 					<strong>@repository.Name</strong>
-					<span class="commit-author">@repository.LatestCommit.Author</span>: <span class="commit-message">@repository.LatestCommit.Message</span> - <span class="commit-date">@repository.LatestCommit.Date
+                    @if (repository.LatestCommit != null) {
+                        <span>
+                            <span class="commit-author">@repository.LatestCommit.Author</span>: <span class="commit-message">@repository.LatestCommit.Message</span> - <span class="commit-date">@repository.LatestCommit.Date</span>        
+                        </span>
+                    }
 				</a>
 			</li>
 		}
@@ -34,7 +38,7 @@
 	<div class="title">Create a new repository <a href="#" class="jqmClose"><img src="@Url.Content("~/Content/images/close.png")" alt="Close" /></a></div>		
 	<div class="content">
 	@using (Html.BeginForm("Create", "DirectoryList")) {
-        <input type="hidden" name="directory" value="@Model.RepositoriesDirectory" />
+        <input type="hidden" name="directory" value="@Model.RepositoriesDirectory.FullName" />
 		<input type="text" name="project" />@:.git<br />
 		<input type="submit" value="Create a new repository" class="button" />
 	}
@@ -50,5 +54,3 @@
         });
     });
 </script>
-
-</asp:Content>

@@ -42,7 +42,11 @@ namespace GitAspx.ViewModels {
             get { return commit.ShortHash; } 
         }
 
-        public string Author { get { return commit.Author.Name; } }
+        public string Author { 
+            get {
+                return commit.Author.Name;
+            } 
+        }
 
         public string Date {
             get { return commit.CommitDate.DateTime.ToPrettyDateString(); }

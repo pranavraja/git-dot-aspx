@@ -37,7 +37,7 @@ namespace GitAspx.Controllers {
 		    var teamDirectory = repositories.GetRepositoriesDirectory(team);
             if (teamDirectory == null) return new NotFoundResult("Team");
             return View(new DirectoryListViewModel {
-				RepositoriesDirectory = teamDirectory.Name,
+				RepositoriesDirectory = teamDirectory,
 				Repositories = repositories.GetAllRepositories(team).Select(x => new RepositoryViewModel(x))
 			});
 		}

@@ -16,11 +16,17 @@ namespace GitAspx.ViewModels {
 		}
 
 	    public CommitInfoViewModel LatestCommit {
-            get { return new CommitInfoViewModel(repository.GetLatestCommit()); }
+            get {
+                var latestCommit = repository.GetLatestCommit();
+                return latestCommit == null ? null : new CommitInfoViewModel(latestCommit);
+            }
 	    }
 
 	    public IEnumerable<CommitInfoViewModel> RecentCommits {
-            get { return repository.GetRecentCommits(10).Select(commitInfo => new CommitInfoViewModel(commitInfo));  }
+            get {
+                var latestCommit = repository.GetLatestCommit();
+                return latestCommit == null ? null : repository.GetRecentCommits(10).Select(commitInfo => new CommitInfoViewModel(commitInfo));
+            }
 	    } 
 
 	}
