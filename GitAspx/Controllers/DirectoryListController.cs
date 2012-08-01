@@ -24,8 +24,9 @@ namespace GitAspx.Controllers {
 	using GitAspx.Lib;
 	using GitAspx.ViewModels;
 	using System.Linq;
+    using GitSharp.Core.Exceptions;
 
-	public class DirectoryListController : Controller {
+    public class DirectoryListController : Controller {
 		readonly RepositoryService repositories;
 
 		public DirectoryListController(RepositoryService repositories) {
@@ -33,8 +34,10 @@ namespace GitAspx.Controllers {
 		}
 
 		public ActionResult Index(string team) {
-			return View(new DirectoryListViewModel {
-				RepositoriesDirectory = repositories.GetRepositoriesDirectory(team).Name,
+		    var teamDirectory = repositories.GetRepositoriesDirectory(team);
+            if (teamDirectory == null) return new NotFoundResult("Team");
+            return View(new DirectoryListViewModel {
+				RepositoriesDirectory = teamDirectory.Name,
 				Repositories = repositories.GetAllRepositories(team).Select(x => new RepositoryViewModel(x))
 			});
 		}

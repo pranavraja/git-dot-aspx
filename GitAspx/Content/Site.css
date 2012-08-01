@@ -5,6 +5,19 @@ body {
 	font-size:11px; 
 }
 
+.commit-author {
+    color: royalblue;
+}
+.commit-hash {
+    color: gray;float: left; width: 6em;height: 100%;border: thin solid transparent;
+}
+.commit-date {
+    color: gray;white-space: nowrap;
+}
+.commit-message {
+    font-size: 75%;
+}
+
 .clear { 
 	clear:both; 
 	font-size:0.1px; 
@@ -53,20 +66,18 @@ ul#repositories li {
 ul#repositories li a {
 	font-size:13px;
 	color:#000;
-	height:15px;
 	width:auto;
 	padding:5px 5px 5px 20px;
 	margin:5px 0 5px 5px;
 	text-decoration:none;
-	display:block;	
-	overflow:hidden;
+    display: block;
 	background:#cbd6de url(images/bullet.png) no-repeat 0 40%;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 }
 
-ul#repositories li a:hover {
+ul#repositories li a.repository:hover {
 	background-color:#fff;
 }
 

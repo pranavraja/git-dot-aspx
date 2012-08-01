@@ -59,7 +59,7 @@ namespace GitAspx.Controllers {
 			var repository = repositories.GetRepository(team, project);
 
 			if (repository == null) {
-				return new NotFoundResult();
+				return new NotFoundResult(string.Format("{0}/{1}", team, project));
 			}
 
 			Response.PktWrite("# service=git-{0}\n", service);
@@ -83,7 +83,7 @@ namespace GitAspx.Controllers {
 			var repository = repositories.GetRepository(team, project);
 
 			if(repository == null) {
-				return new NotFoundResult();
+                return new NotFoundResult(string.Format("{0}/{1}", team, project));
 			}
 
 			repository.UpdateServerInfo();

@@ -1,0 +1,39 @@
+﻿@using GitAspx.ViewModels
+@using GitAspx;
+@model RepositoryViewModel
+
+@{
+    ViewBag.Title = "Commits";
+    string team = ViewBag.Team;
+    string project = ViewBag.Project;
+}
+
+<div class="repositoryContainer">
+    <h1>Recent commits for <a class="repository" href="javascript:void(0)" title="@Url.ProjectUrl(team, project)">@Model.Name</a></h1>
+
+    <ul id="repositories">
+	    @foreach (var commit in Model.RecentCommits) {
+		    <li><a><span class="commit-hash">@commit.Hash</span> <span class="commit-author">@commit.Author</span>: <span class="commit-message">@commit.Message</span> - <span class="commit-date">@commit.Date</span></a></li>
+        }
+    </ul>
+</div>
+
+<div class="jqmWindow" id="dialog">
+	<div class="title">Clone the repository using this command <a href="#" class="jqmClose"><img src="@Url.Content("~/Content/images/close.png")" alt="Close" /></a></div>		
+	<div class="content">			
+		<pre>git clone <input type="text" id="repository-url" /></pre>
+	</div>
+</div>
+
+<script>
+    $('#dialog').jqm();
+    $('#repository-url').click(function () {
+        $(this).select();
+    });
+
+    $('a.repository').click(function () {
+        var url = $(this).attr('title');
+        $('#dialog').jqmShow();
+        $('#repository-url').val(url).focus().select();
+    });
+</script>

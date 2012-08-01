@@ -13,9 +13,9 @@
 	<ul id="repositories">
 		@foreach (var repository in Model.Repositories) {
 			<li>
-				<a class="repository" href="javascript:void(0)" title="@Url.ProjectUrl(repository.Name)">
-					@repository.Name
-					<span class="latest-commit">@repository.LatestCommitInfo</span>
+				<a class="repository" href="@Model.RepositoriesDirectory/@repository.Name" title="@Url.ProjectUrl(Model.RepositoriesDirectory, repository.Name)">
+					<strong>@repository.Name</strong>
+					<span class="commit-author">@repository.LatestCommit.Author</span>: <span class="commit-message">@repository.LatestCommit.Message</span> - <span class="commit-date">@repository.LatestCommit.Date
 				</a>
 			</li>
 		}
@@ -43,18 +43,7 @@
 
 <script type="text/javascript">
     $(function () {
-        $('#dialog').jqm();
         $('#createRepositoryDialog').jqm();
-
-        $('#repository-url').click(function () {
-            $(this).select();
-        });
-
-        $('a.repository').click(function () {
-            var url = $(this).attr('title');
-            $('#dialog').jqmShow();
-            $('#repository-url').val(url).focus().select();
-        });
 
         $('a.createRepository').click(function () {
             $('#createRepositoryDialog').jqmShow();

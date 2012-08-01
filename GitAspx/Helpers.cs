@@ -36,11 +36,12 @@ namespace GitAspx {
 			get { return version;}
 		}
 
-		public static string ProjectUrl(this UrlHelper urlHelper, string project) {
-			return urlHelper.RouteUrl("project", new RouteValueDictionary(new {project}),
-			                          urlHelper.RequestContext.HttpContext.Request.Url.Scheme,
-			                          urlHelper.RequestContext.HttpContext.Request.Url.Host);
-		}
+        public static string ProjectUrl(this UrlHelper urlHelper, string team, string project)
+        {
+            return urlHelper.RouteUrl("project", new RouteValueDictionary(new { team, project }),
+                                      urlHelper.RequestContext.HttpContext.Request.Url.Scheme,
+                                      urlHelper.RequestContext.HttpContext.Request.Url.Host);
+        }
 
 		public static string ToPrettyDateString(this DateTime d) {
 			TimeSpan s = DateTime.Now.Subtract(d);
@@ -70,7 +71,7 @@ namespace GitAspx {
 			if (dayDiff == 1)
 				return "yesterday";
 
-			if (dayDiff < 7)
+			if (dayDiff <= 7)
 				return string.Format("{0} days ago", dayDiff);
 
 			if (dayDiff < 31)

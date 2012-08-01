@@ -68,7 +68,7 @@ namespace GitAspx.Controllers {
 			var repository = repositories.GetRepository(team, project);
 
 			if (repository == null) {
-				return new NotFoundResult();
+				return new NotFoundResult(string.Format("{0}/{1}", team, project));
 			}
 
 			action(repository);

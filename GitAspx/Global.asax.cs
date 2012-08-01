@@ -66,7 +66,7 @@ namespace GitAspx {
             routes.MapRoute("get-idx-file", "{team}/{project}/objects/pack/pack-{filename}.idx", 
 				new {controller = "Dumb", action = "GetIdxFile"});
 
-            routes.MapRoute("project", "{team}/{project}");
+            routes.MapRoute("project", "{team}/{project}", new { controller = "Repository", action="Index"});
 		}
 
 		protected void Application_Start() {

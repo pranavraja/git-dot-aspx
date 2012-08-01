@@ -46,7 +46,7 @@ namespace GitAspx.Controllers {
 			string path = Path.Combine(repo.GitDirectory(), GetPathToRead(project));
 
 			if(! System.IO.File.Exists(path)) {
-				return new NotFoundResult();
+				return new NotFoundResult(string.Format("{0}/{1}", team, project));
 			}
 
 			Response.WriteFile(path);

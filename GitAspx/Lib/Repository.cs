@@ -8,7 +8,7 @@ namespace GitAspx.Lib {
 	using GitSharp.Core.Transport;
 
 	public class Repository {
-		private DirectoryInfo directory;
+		private readonly DirectoryInfo directory;
 
 		public static Repository Open(DirectoryInfo directory) {
 			if (GitSharp.Repository.IsValid(directory.FullName)) {
@@ -53,18 +53,24 @@ namespace GitAspx.Lib {
 			}
 		}
 
-		public CommitInfo GetLatestCommit() {
+        public IEnumerable<GitSharp.Commit> GetRecentCommits(int number) {
+            using (var repository = new GitSharp.Repository(FullPath)) {
+                var commit = repository.CurrentBranch.CurrentCommit;
+                if (commit == null) return null;
+                var recentCommits = new List<GitSharp.Commit> { commit };
+                for (var i = 0; i < number; ++i) {
+                    commit = commit.Parent;
+                    if (commit == null) break;
+                    recentCommits.Add(commit);
+                }
+                return recentCommits;
+            }
+        }
+
+        public GitSharp.Commit GetLatestCommit()
+        {
 			using (var repository = new GitSharp.Repository(FullPath)) {
-				var commit = repository.Head.CurrentCommit;
-
-				if (commit == null) {
-					return null;
-				}
-
-				return new CommitInfo {
-					Message = commit.Message,
-					Date = commit.CommitDate.DateTime
-				};
+				return repository.Head.CurrentCommit;
 			}
 		}
 
@@ -131,8 +137,4 @@ namespace GitAspx.Lib {
 		}
 	}
 
-	public class CommitInfo {
-		public string Message { get; set; }
-		public DateTime Date { get; set; }
-	}
 }

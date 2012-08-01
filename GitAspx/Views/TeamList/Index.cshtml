@@ -9,7 +9,7 @@
 		@foreach (var directory in Model.Directories) {
 			<li>
 				<a class="repository" href="/@directory.Name" title="@directory.Name">
-					@directory.Name
+					<strong>@directory.Name</strong>
 				</a>
 			</li>
 		}
